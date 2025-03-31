@@ -26,7 +26,7 @@
             width: 430px;
             height: 932px;
             background: #433022;
-            border-radius: 0;
+            border-radius: 20px;
             padding: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             position: relative;
@@ -89,6 +89,7 @@
             position: relative;
             margin-bottom: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
         }
 
         .info {
@@ -116,14 +117,15 @@
         .form-container {
             position: absolute;
             bottom: 20px;
-            left: 20px;
-            right: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             background: #433022;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             display: none;
             z-index: 10;
+            width: 90%;
         }
 
         .form-container input, .form-container button {
@@ -145,29 +147,29 @@
             background: #45a049;
         }
 
-        /* Lightbox Style */
-        .lightbox {
+        /* Fullscreen Image */
+        .fullscreen {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 20;
+            z-index: 9999;
             display: none;
         }
 
-        .lightbox img {
+        .fullscreen img {
             max-width: 90%;
             max-height: 90%;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
 
-        .lightbox .close-btn {
+        .fullscreen .close-btn {
             position: absolute;
             top: 20px;
             right: 30px;
@@ -176,13 +178,12 @@
             cursor: pointer;
         }
 
-        /* Delete button */
         .delete-btn {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: rgb(255, 217, 0);
-            color: rgb(0, 0, 0);
+            background: #ff5555;
+            color: white;
             border: none;
             border-radius: 15px;
             padding: 5px 10px;
@@ -191,52 +192,40 @@
         }
 
         .delete-btn:hover {
-            background: rgb(255, 132, 0);
+            background: #ff0000;
         }
 
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <button class="btn1" onclick="goBack()">←</button>
-            
-            <input type="date" id="datePicker" class="date" onchange="loadDataByDate()">
-            
-            <button class="btn2" onclick="toggleForm()">+</button>
-        </div>
 
-        <div class="content" id="dataContainer"></div>
-
-        <!-- Form for adding data -->
-        <div class="form-container" id="form">
-            <input type="date" id="formDatePicker" required>
-            <input type="text" id="shopName" placeholder="Shop Name" required>
-            <input type="number" id="totalAmount" placeholder="Total Amount" required>
-            <input type="file" id="photoInput" accept="image/*" capture="camera" required>
-            <button onclick="addData()">Add Data</button>
-        </div>
-
-        <!-- Lightbox -->
-        <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-            <span class="close-btn" onclick="closeLightbox()">×</span>
-            <img id="lightboxImg" src="">
-        </div>
-
+<div class="container" id="container">
+    <div class="header">
+        <button class="btn1" onclick="goBack()">←</button>
+        <input type="date" id="datePicker" class="date" onchange="loadDataByDate()">
+        <button class="btn2" onclick="toggleForm()">+</button>
     </div>
 
+    <div class="content" id="dataContainer"></div>
+
+    <div class="form-container" id="form">
+        <input type="date" id="formDatePicker" required>
+        <input type="text" id="shopName" placeholder="Shop Name" required>
+        <input type="number" id="totalAmount" placeholder="Total Amount" required>
+        <input type="file" id="photoInput" accept="image/*" capture="camera" required>
+        <button onclick="addData()">Add Data</button>
+    </div>
+
+    <div id="fullscreen" class="fullscreen" onclick="closeFullscreen()">
+        <span class="close-btn" onclick="closeFullscreen()">×</span>
+        <img id="fullscreenImg" src="" alt="Full Screen">
+    </div>
+</div>
+
 <script>
-    let currentDate = new Date();
-    document.getElementById('datePicker').valueAsDate = currentDate;
-    document.getElementById('formDatePicker').valueAsDate = currentDate;
-
-    function goBack() {
-        window.history.back();
-    }
-
     function toggleForm() {
         const form = document.getElementById('form');
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
     }
 
     function addData() {
@@ -259,33 +248,32 @@
     function loadDataByDate() {
         const date = document.getElementById('datePicker').value;
         const data = JSON.parse(localStorage.getItem(date)) || [];
-
         const container = document.getElementById('dataContainer');
         container.innerHTML = '';
 
-        data.forEach((item, index) => {
-            const card = document.createElement('div');
-            card.classList.add('add-form');
-            card.innerHTML = `
-                <button class="delete-btn" onclick="deleteData('${date}', ${index})">🗑️</button>
-                <div class="info">
-                    <p><strong>Total:</strong> ₹ ${item.total}</p>
-                    <p><strong>Shop:</strong> ${item.shop}</p>
-                </div>
-                <img src="${item.image}" class="image-placeholder" onclick="openLightbox('${item.image}')">
-            `;
-            container.appendChild(card);
+        data.forEach(item => {
+            const card = `<div class="add-form" onclick="openFullscreen('${item.image}')">
+                <div class="info"><p><strong>Total:</strong> ₹ ${item.total}</p>
+                <p><strong>Shop:</strong> ${item.shop}</p></div>
+                <img src="${item.image}" class="image-placeholder">
+            </div>`;
+            container.innerHTML += card;
         });
     }
 
-    function deleteData(date, index) {
-        let data = JSON.parse(localStorage.getItem(date)) || [];
-        data.splice(index, 1);
-        localStorage.setItem(date, JSON.stringify(data));
-        loadDataByDate();
+    function openFullscreen(imgSrc) {
+        const fullscreen = document.getElementById('fullscreen');
+        const img = document.getElementById('fullscreenImg');
+        img.src = imgSrc;
+        fullscreen.style.display = 'flex';
+    }
+
+    function closeFullscreen() {
+        document.getElementById('fullscreen').style.display = 'none';
     }
 
     loadDataByDate();
 </script>
+
 </body>
 </html>
