@@ -177,7 +177,6 @@
             color: white;
             cursor: pointer;
         }
-
         .delete-btn {
             position: absolute;
             top: 10px;
@@ -194,7 +193,6 @@
         .delete-btn:hover {
             background: #ff0000;
         }
-
     </style>
 </head>
 <body>
@@ -271,6 +269,29 @@
     function closeFullscreen() {
         document.getElementById('fullscreen').style.display = 'none';
     }
+
+    function loadDataByDate() {
+    const date = document.getElementById('datePicker').value;
+    const data = JSON.parse(localStorage.getItem(date)) || [];
+    const container = document.getElementById('dataContainer');
+    container.innerHTML = '';
+
+    data.forEach((item, index) => {
+        const card = `
+        <div class="add-form">
+            <div class="info">
+                <p><strong>Total:</strong> ₹ ${item.total}</p>
+                <p><strong>Shop:</strong> ${item.shop}</p>
+            </div>
+            <img src="${item.image}" class="image-placeholder" onclick="openFullscreen('${item.image}')">
+            
+            <!-- Delete Button -->
+            <button class="delete-btn" onclick="deleteData('${date}', ${index})">Delete</button>
+        </div>`;
+        
+        container.innerHTML += card;
+    });
+}
 
     loadDataByDate();
 </script>
