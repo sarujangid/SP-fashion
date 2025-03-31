@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home page</title>
+</head>
+<style>
+            /* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #4e3b24, #000000);
+    background-attachment: fixed;
+}
+
+/* Container */
+.container {
+    width: 430px;
+    height: 932px;
+    
+    border-radius: 0px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+.logo{
+    width: 335px;
+    height: 335px;
+    position: absolute;
+    top: 2px;
+    left: 48px;
+}
+.get-started{
+    width: 342px;
+    padding: 70px;
+    border: none;
+    background-color:#845A42;
+    color: white;
+    border-radius: 46px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 2px 2px 4px rgb(51, 50, 50);
+    position: absolute;
+    top: 705px;
+    left: 44px;
+    font-size: 30px;
+    padding: 5px 5%;
+}
+.welcome-screen h2{
+    font-size: 36px;
+    position: absolute;
+    top: 502px;
+    left: 100px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: 400;
+}
+
+</style>
+<body>
+    <div class="container">
+        <div class="welcome-screen">
+            <div>
+                <img src="WhatsApp_Image_2025-03-29_at_18.43.02_0efeb675-removebg-preview.png" alt="logo" class="logo">
+            </div>
+            <h2>The Best Store</h2>
+            
+            <a href="login.html">
+                <button class="get-started" >GET STARTED</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

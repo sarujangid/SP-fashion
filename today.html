@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Store Dashboard</title>
+</head>
+<style>
+    /* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #8B5A2B;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container */
+.container {
+    width: 430px;
+    height: 932px;
+    background: #9A6123;
+    border-radius: 0px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Profile Section */
+.profile {
+    display: flex;
+    align-items: center;
+    background: #433022;
+    border-radius: 45px;
+    margin-bottom: 20px;
+    color: white;
+    width: 430px;
+    height: 295px;
+    position: absolute;
+    top: -60px;
+    left: 0px;
+    
+}
+.logo{
+    overflow: hidden;
+    width: 114px;
+    height: 114px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    left: 39px;
+    top: 96px; 
+    text-align: center;
+}
+.profile-img {
+    width: 93.5px;
+    height: 120px;
+    border-radius: 50%;  
+}
+
+.profile-info h3 {
+    font-size: 24px;
+    position: absolute;
+    left: 187px;
+    top: 139px;
+}
+.profile-info h1 {
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    left: 262px;
+    top: 139px;
+}
+
+.profile-info p {
+    font-size: 16px;
+    font-weight: thin;
+    color: #ccc;
+    position: absolute;
+    left: 187px;
+    top: 174px;
+}
+
+.date {
+    font-size: 16px;
+    font-weight: 75%;
+    color: #ccc;
+    position: absolute;
+    left: 248px;
+    top: 250px;
+
+}
+
+/* Navigation Buttons */
+.nav-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 250px;
+    left: 10px;
+    
+}
+
+.btn {
+    width: 109px;
+    padding: 10px;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 20px;
+    box-shadow: 2px 2px 4px rgb(51, 50, 50);
+}
+
+.today {
+    background: orange;
+    color: black;
+}
+
+.btn:hover {
+    background: #FFA500;
+    color: white;
+}
+
+/* Card Styles */
+
+.card-cash{
+    width: 381px;
+    height: 135px;
+    background: black;
+    color: white;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    top: 331px;
+    left: 26px;
+}
+.card-online{
+    width: 381px;
+    height: 135px;
+    background: black;
+    color: white;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    top: 487px;
+    left: 26px;
+}
+
+
+.amount {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.icon {
+    width: 100px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.phone-pay{
+    width: 123px;
+    height: 31px;
+    position: absolute;
+    left: 248px;
+    top: 20px;
+}
+.google-pay{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 220px;
+    top: 45px;
+}
+.bhim{
+    width: 80px;
+    height: 20px;
+    position: absolute;
+    right: 10px;
+    top: 60px;
+}
+
+/* Lend Section */
+.card-lend{
+    width: 381px;
+    height: 236px;
+    background: black;
+    color: white;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    top: 643px;
+    left: 26px;
+}
+.customer-list{
+    position: absolute;
+    top: 30px;
+    right: 20px;
+}
+.customer-list p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.customer-list ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.customer-list li {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+</style>
+<body>
+
+<div class="container">
+    <!-- Profile Section -->
+    <div class="profile">
+        <div class="logo">
+        <img src="WhatsApp Image 2025-03-30 at 18.26.25_0479d3dc.jpg" alt="Profile" class="profile-img">
+        </div>
+        <div class="profile-info">
+            <h3>Hello,</h3>
+            <h1 class="shop-owner">Shankar lal</h1>
+            <p>Shop owner</p>
+        </div>
+        <p id="date" class="date">Date :</p>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-btns">
+        <button class="btn" onclick="navigate('today.html')">Today</button>
+        <button class="btn" onclick="navigate('all-list.html')">All List</button>
+        <button class="btn" onclick="navigate('recode.html')">Recode</button>
+    </div>
+
+    <!-- Cash Section -->
+    <div class="card-cash">
+        <h3>Cash</h3>
+        <p id="cashAmount"  class="amount">₹ 0</p>
+        <img src="rupee-coin-stack-3d-icon-for-finance-or-business-illustration-png.webp" alt="Cash" class="icon">
+    </div>
+
+    <!-- Online Section -->
+    <div class="card-online">
+        <h3>Online</h3>
+        <p id="onlineAmount" class="amount">₹ 0</p>
+        <div class="online-icons">
+            <img src="PhonePe_Logo_full.webp" alt="PhonePe" class="phone-pay">
+            <img src="google-pay-logo-transparent-free-png.webp" alt="Google Pay" class="google-pay">
+            <img src="360-3606562_bhim-logo-bhim-upi.png" alt="BHIM" class="bhim">
+        </div>
+    </div>
+
+    <!-- Lend Section -->
+    <div class="card-lend">
+        <h3>Lend</h3>
+        <p id="lendAmount" class="amount">₹ 0</p>
+        <div class="customer-list">
+            <p>Customer Name</p>
+            <ul id="customerNames"></ul>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
+<script>
+// ✅ Navigation Buttons par Active State
+    const buttons = document.querySelectorAll('.btn');
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Sabhi buttons se active class remove karo
+        buttons.forEach(btn => btn.classList.remove('today'));
+        // Clicked button par active class add karo
+        button.classList.add('today');
+    });
+});
+
+// Function to navigate to different pages
+function navigate(page) {
+    window.location.href = page;  // Navigate to the specified page
+}
+// Function to display the product page (for single-page apps)
+function showPage(page) {
+    alert(`Navigating to: ${page}`);  // Simulate navigation
+}
+
+
+// ✅ Simple Animation Effect
+const cards = document.querySelectorAll('.card-cash, .card-online, .card-lend');
+
+cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'scale(1.05)';
+        card.style.transition = '0.3s';
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'scale(1)';
+    });
+});
+// ✅ Function to get today's date in YYYY-MM-DD format
+function getTodayDate() {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+}
+
+// ✅ Display Today's Date
+document.getElementById('date').textContent = `Date: ${getTodayDate()}`;
+
+// ✅ Load today's sales data
+function loadTodayData() {
+    const salesData = JSON.parse(localStorage.getItem('sales')) || [];
+    const todayDate = getTodayDate();
+
+    // ✅ Filter today's data
+    const todaySales = salesData.find(sale => sale.date === todayDate);
+
+    if (todaySales) {
+        document.getElementById('cashAmount').textContent = `₹ ${todaySales.cash.toFixed(2)}`;
+        document.getElementById('onlineAmount').textContent = `₹ ${todaySales.online.toFixed(2)}`;
+        document.getElementById('lendAmount').textContent = `₹ ${todaySales.lend.toFixed(2)}`;
+
+        const customerList = document.getElementById('customerNames');
+        customerList.innerHTML = todaySales.customers.map(name => `<li>${name}</li>`).join('') || `<li>No Customers</li>`;
+    } else {
+        // ✅ No data for today
+        document.getElementById('cashAmount').textContent = `₹ 0`;
+        document.getElementById('onlineAmount').textContent = `₹ 0`;
+        document.getElementById('lendAmount').textContent = `₹ 0`;
+        document.getElementById('customerNames').innerHTML = `<li>No Customers</li>`;
+    }
+}
+
+// ✅ On page load, show today's data
+window.onload = loadTodayData;
+
+</script>
+</html>

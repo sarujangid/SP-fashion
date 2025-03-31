@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Store Login</title>
+</head>
+<style>
+    /* General Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(to bottom, #4e3b24, #000000);
+        background-attachment: fixed;
+    }
+
+    .container {
+        width: 430px;
+        height: 932px;
+        border-radius: 0px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .logo {
+        width: 335px;
+        height: 335px;
+        position: absolute;
+        top: 2px;
+        left: 48px;
+    }
+
+    .login-screen h2 {
+        font-size: 48px;
+        position: absolute;
+        top: 358px;
+        left: 139px;
+        font-weight: bold;
+    }
+
+    .input1, .input2 {
+        width: 396px;
+        height: 58px;
+        border-radius: 40px;
+        position: absolute;
+        left: 17px;
+        font-size: 24px;
+        padding: 5px 5%;
+        border: 0px;
+        box-shadow: 2px 2px 4px rgb(65, 65, 65);
+    }
+
+    .input1 {
+        top: 437px;
+    }
+
+    .input2 {
+        top: 516px;
+    }
+
+    .login {
+        width: 342px;
+        border: none;
+        background-color: #845A42;
+        color: white;
+        border-radius: 46px;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 2px 2px 4px rgb(51, 50, 50);
+        position: absolute;
+        top: 705px;
+        left: 44px;
+        font-size: 30px;
+        padding: 5px 5%;
+    }
+
+    .login:hover {
+        background: #6a4732;
+    }
+
+</style>
+
+<body>
+
+<div class="container">
+    <div>
+        <img src="WhatsApp_Image_2025-03-29_at_18.43.02_0efeb675-removebg-preview.png" alt="logo" class="logo">
+    </div>
+
+    <div class="login-screen">
+        <h2>LOGIN</h2>
+        <input type="text" id="username" placeholder="Username" class="input1">
+        <input type="password" id="password" placeholder="Password" class="input2">
+        <button class="login" onclick="login()">LOGIN</button>
+    </div>
+</div>
+
+<script>
+    // ✅ Owner and Staff Credentials
+    const ownerCredentials = {
+        username: "shankar lal",
+        password: "s8875148001"
+    };
+
+    const staffCredentials = {
+        username: "ramesh",
+        password: "r12345678"
+    };
+
+    // ✅ Login Function
+    function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Owner Login
+        if (username === ownerCredentials.username && password === ownerCredentials.password) {
+            alert("Owner Login Successful!");
+            window.location.href = "today.html";  // Redirect to Owner Dashboard
+        }
+        // Staff Login
+        else if (username === staffCredentials.username && password === staffCredentials.password) {
+            alert("Staff Login Successful!");
+            window.location.href = "staff.html";  // Redirect to Staff Dashboard
+        }
+        // Invalid Credentials
+        else {
+            alert("Invalid Username or Password!");
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Dashboard</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #8B5A2B;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Container */
+        .container {
+            width: 430px;
+            height: 932px;
+            background: #9A6123;
+            border-radius: 0px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Profile Section */
+        .profile {
+            display: flex;
+            align-items: center;
+            background: #433022;
+            border-radius: 45px;
+            margin-bottom: 20px;
+            color: white;
+            width: 430px;
+            height: 295px;
+            position: absolute;
+            top: -60px;
+            left: 0px;
+        }
+
+.logo{
+    overflow: hidden;
+    width: 114px;
+    height: 114px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    left: 39px;
+    top: 96px; 
+    text-align: center;
+}
+.profile-img {
+    width: 93.5px;
+    height: 120px;
+    border-radius: 50%;  
+}
+
+
+        .profile-info h3 {
+            font-size: 24px;
+            position: absolute;
+            left: 187px;
+            top: 139px;
+        }
+
+        .profile-info h1 {
+            font-size: 24px;
+            font-weight: bold;
+            position: absolute;
+            left: 262px;
+            top: 139px;
+        }
+
+        .profile-info p {
+            font-size: 16px;
+            color: #ccc;
+            position: absolute;
+            left: 187px;
+            top: 174px;
+        }
+
+        /* Navigation Buttons */
+        .nav-btns {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 250px;
+            left: 10px;
+        }
+
+        .btn {
+            width: 109px;
+            padding: 10px;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 20px;
+            box-shadow: 2px 2px 4px rgb(51, 50, 50);
+        }
+
+        .btn:hover {
+            background: #FFA500;
+            color: rgb(0, 0, 0);
+            font-weight: 600;
+        }
+
+        /* Stats Section */
+        .stats {
+            width: 381px;
+            height: 439px;
+            background: black;
+            color: white;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.7);
+            position: absolute;
+            top: 380px;
+            left: 26px;
+        }
+
+        .date {
+            font-size: 18px;
+            color: #ff6000;
+            margin-bottom: 10px;
+        }
+
+        .date-picker {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .cash, .online, .lend {
+            font-size: 22px;
+            margin: 10px 0;
+        }
+
+        .customer-list p {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .customer-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .customer-list li {
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Profile Section -->
+    <div class="profile">
+        <div class="logo">
+            <img src="WhatsApp Image 2025-03-30 at 18.26.25_0479d3dc.jpg" alt="Profile" class="profile-img">
+        </div>
+        <div class="profile-info">
+            <h3>Hello,</h3>
+            <h1 class="shop-owner">Shankar lal</h1>
+            <p>Shop owner</p>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-btns">
+        <button class="btn" onclick="navigate('today.html')">Today</button>
+        <button class="btn" onclick="navigate('all-list.html')">All List</button>
+        <button class="btn" onclick="navigate('recode.html')">Recode</button>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats">
+        <label for="date-select" class="date">Select Date:</label>
+        <input type="date" id="date-select" class="date-picker" onchange="loadData()">
+
+        <p class="cash">Cash: ₹ <span id="cash">0</span></p>
+        <p class="online">Online: ₹ <span id="online">0</span></p>
+        <p class="lend">Lend: ₹ <span id="lend">0</span></p>
+
+        <div class="customer-list">
+            <p>Customer Names:</p>
+            <ul id="customer-list">
+                <li>No Data</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+ // ✅ Load sales data based on date
+function loadData() {
+    const selectedDate = document.getElementById('date-select').value;
+
+    if (!selectedDate) {
+        alert('Please select a date');
+        return;
+    }
+
+    const salesData = JSON.parse(localStorage.getItem('sales')) || [];
+    
+    // ✅ Find data for the selected date
+    const selectedData = salesData.find(sale => sale.date === selectedDate);
+
+    if (selectedData) {
+        document.getElementById('cash').textContent = selectedData.cash.toFixed(2);
+        document.getElementById('online').textContent = selectedData.online.toFixed(2);
+        document.getElementById('lend').textContent = selectedData.lend.toFixed(2);
+
+        const customerList = document.getElementById('customer-list');
+        customerList.innerHTML = selectedData.customers.map(name => `<li>${name}</li>`).join('') || `<li>No Customers</li>`;
+    } else {
+        // ✅ No data for this date
+        document.getElementById('cash').textContent = `0`;
+        document.getElementById('online').textContent = `0`;
+        document.getElementById('lend').textContent = `0`;
+        document.getElementById('customer-list').innerHTML = `<li>No Customers</li>`;
+    }
+}
+
+// ✅ Automatically show today's date on load
+window.onload = () => {
+    const dateElement = document.getElementById('date-select');
+    const today = new Date().toISOString().split('T')[0];
+    dateElement.value = today;
+    loadData();
+};
+
+// ✅ Navigation Buttons par Active State
+const buttons = document.querySelectorAll('.btn');
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Sabhi buttons se active class remove karo
+        buttons.forEach(btn => btn.classList.remove('today'));
+        // Clicked button par active class add karo
+        button.classList.add('today');
+    });
+});
+
+// Function to navigate to different pages
+function navigate(page) {
+    window.location.href = page;  // Navigate to the specified page
+}
+// Function to display the product page (for single-page apps)
+function showPage(page) {
+    alert(`Navigating to: ${page}`);  // Simulate navigation
+}
+
+</script>
+
+</body>
+</html>

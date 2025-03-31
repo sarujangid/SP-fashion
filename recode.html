@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Store UI</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #8B5A2B;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 430px;
+            height: 932px;
+            background: #433022;
+            border-radius: 0;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn1, .btn2 {
+            background: #ffffff;
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 30px;
+            font-weight: bold;
+            position: absolute;
+            top: 30px;
+        }
+
+        .btn1 { left: 26px; }
+        .btn2 { left: 350px; }
+
+        .btn1:hover, .btn2:hover {
+            background: #C4B4A6;
+            border: 1px double black;
+        }
+
+        .date {
+            position: absolute;
+            top: 49px;
+            left: 140px;
+            font-size: 18px;
+        }
+
+        .content {
+            width: 430px;
+            height: 826px;
+            position: absolute;
+            top: 106px;
+            left: 0;
+            border-radius: 45px 45px 0 0;
+            background-color: #9a6123;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Card Layout */
+        .add-form {
+            background: black;
+            color: white;
+            width: 100%;
+            height: 173px;
+            border-radius: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            font-size: 20px;
+        }
+
+        .image-placeholder {
+            width: 102px;
+            height: 143px;
+            background: #D4D4D4;
+            border-radius: 12px;
+            object-fit: cover;
+            margin: 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .image-placeholder:hover {
+            transform: scale(1.05);
+        }
+
+        .form-container {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: #433022;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 10;
+        }
+
+        .form-container input, .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .form-container button {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background: #45a049;
+        }
+
+        /* Lightbox Style */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            display: none;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Delete button */
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgb(255, 217, 0);
+            color: rgb(0, 0, 0);
+            border: none;
+            border-radius: 15px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .delete-btn:hover {
+            background: rgb(255, 132, 0);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="btn1" onclick="goBack()">←</button>
+            
+            <input type="date" id="datePicker" class="date" onchange="loadDataByDate()">
+            
+            <button class="btn2" onclick="toggleForm()">+</button>
+        </div>
+
+        <div class="content" id="dataContainer"></div>
+
+        <!-- Form for adding data -->
+        <div class="form-container" id="form">
+            <input type="date" id="formDatePicker" required>
+            <input type="text" id="shopName" placeholder="Shop Name" required>
+            <input type="number" id="totalAmount" placeholder="Total Amount" required>
+            <input type="file" id="photoInput" accept="image/*" capture="camera" required>
+            <button onclick="addData()">Add Data</button>
+        </div>
+
+        <!-- Lightbox -->
+        <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+            <span class="close-btn" onclick="closeLightbox()">×</span>
+            <img id="lightboxImg" src="">
+        </div>
+
+    </div>
+
+<script>
+    let currentDate = new Date();
+    document.getElementById('datePicker').valueAsDate = currentDate;
+    document.getElementById('formDatePicker').valueAsDate = currentDate;
+
+    function goBack() {
+        window.history.back();
+    }
+
+    function toggleForm() {
+        const form = document.getElementById('form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function addData() {
+        const date = document.getElementById('formDatePicker').value;
+        const shop = document.getElementById('shopName').value;
+        const total = document.getElementById('totalAmount').value;
+        const photoInput = document.getElementById('photoInput');
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            let data = JSON.parse(localStorage.getItem(date)) || [];
+            data.push({ shop, total, image: event.target.result });
+            localStorage.setItem(date, JSON.stringify(data));
+            loadDataByDate();
+            toggleForm();
+        };
+        reader.readAsDataURL(photoInput.files[0]);
+    }
+
+    function loadDataByDate() {
+        const date = document.getElementById('datePicker').value;
+        const data = JSON.parse(localStorage.getItem(date)) || [];
+
+        const container = document.getElementById('dataContainer');
+        container.innerHTML = '';
+
+        data.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.classList.add('add-form');
+            card.innerHTML = `
+                <button class="delete-btn" onclick="deleteData('${date}', ${index})">🗑️</button>
+                <div class="info">
+                    <p><strong>Total:</strong> ₹ ${item.total}</p>
+                    <p><strong>Shop:</strong> ${item.shop}</p>
+                </div>
+                <img src="${item.image}" class="image-placeholder" onclick="openLightbox('${item.image}')">
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function deleteData(date, index) {
+        let data = JSON.parse(localStorage.getItem(date)) || [];
+        data.splice(index, 1);
+        localStorage.setItem(date, JSON.stringify(data));
+        loadDataByDate();
+    }
+
+    loadDataByDate();
+</script>
+</body>
+</html>
