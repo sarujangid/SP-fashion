@@ -293,6 +293,14 @@
     });
 }
 
+    function deleteData(date, index) {
+    let data = JSON.parse(localStorage.getItem(date)) || [];
+    data.splice(index, 1); // Index wale element ko remove karna
+
+    localStorage.setItem(date, JSON.stringify(data)); // Update localStorage
+    loadDataByDate(); // UI ko update karna
+}
+
     loadDataByDate();
 </script>
 
